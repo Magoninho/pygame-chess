@@ -1,4 +1,3 @@
-from multiprocessing.dummy import current_process
 import pygame
 from sprite import *
 
@@ -19,7 +18,7 @@ FPS = 60
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-pygame.display.set_caption("Tracking System")
+pygame.display.set_caption("Chess")
 
 sheet = SpriteSheet('./images/sprites.png')
 
@@ -68,6 +67,24 @@ def load_position():
 
 			k += 1
 
+def move_to(current_piece, x, y):
+	# positions that the piece will move next
+	new_posx = x * TILESIZE
+	new_posy = y * TILESIZE
+
+	# loop through all pieces to check we are over one
+	for p in pieces:
+		px = p.rect.x
+		py = p.rect.y
+
+		# checks if the new position already has a piece
+		if new_posx == px and new_posy == py:
+			p.rect.x = -1000 # moves it to casa do caralho
+
+	# updates the position of the current piece
+	pieces[current_piece].rect.x = new_posx
+	pieces[current_piece].rect.y = new_posy
+
 
 draging = False
 
@@ -75,6 +92,7 @@ clock = pygame.time.Clock()
 
 
 load_position()
+
 
 running = True
 
@@ -104,8 +122,10 @@ while running:
 				i = mouse_x // TILESIZE
 				j = mouse_y // TILESIZE
 
-				pieces[cp].rect.x = i * TILESIZE
-				pieces[cp].rect.y = j * TILESIZE
+				move_to(cp, i, j)
+
+				# pieces[cp].rect.x = i * TILESIZE
+				# pieces[cp].rect.y = j * TILESIZE
 				
 
 		elif event.type == pygame.MOUSEMOTION:
