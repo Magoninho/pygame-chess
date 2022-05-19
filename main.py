@@ -14,7 +14,7 @@ WHITE = (255, 255, 255)
 RED   = (255,   0,   0)
 TILESIZE = 64
 
-FPS = 60
+FPS = 120
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
