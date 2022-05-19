@@ -99,7 +99,7 @@ while running:
 		elif event.type == pygame.MOUSEBUTTONUP:
 			if event.button == 1:            
 				draging = False
-
+				
 				# centered x and y positions
 				i = mouse_x // TILESIZE
 				j = mouse_y // TILESIZE
