@@ -1,6 +1,6 @@
 import pygame
 from sprite import *
-
+from pygame import mixer
 
 pygame.init()
 
@@ -123,6 +123,8 @@ while running:
 				j = mouse_y // TILESIZE
 
 				move_to(cp, i, j)
+				move_sound = mixer.Sound('sound/move.ogg')
+				move_sound.play()
 
 				# pieces[cp].rect.x = i * TILESIZE
 				# pieces[cp].rect.y = j * TILESIZE
