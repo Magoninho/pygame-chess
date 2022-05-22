@@ -20,10 +20,15 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 pygame.display.set_caption("Chess")
 
+# spritesheet with the chess stuff
 sheet = SpriteSheet('./images/sprites.png')
 
 sprites = pygame.sprite.Group()
 
+# the board array
+# negative numbers just mean that they will be black
+# and positive, they will be white
+# check load_position() for details
 board = [
 	[-5,-4,-3,-2,-1,-3,-4,-5],
 	[-6,-6,-6,-6,-6,-6,-6,-6],
@@ -37,17 +42,16 @@ board = [
 
 
 			
-
+# a function for drawining the board to the screen
 def draw_board(screen):
 	for i in range(8):
 		for j in range(8):
+			# just a little math i figured out...
+			# ...if i + j is odd, render lighter, else render darker
 			color = (240, 217, 181) if (i + j) % 2 == 0 else (181, 136, 99)
 			pygame.draw.rect(screen, color, (i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE))
 
-
-# rectangle = Sprite(sheet.get_image(0, 0, 200, 200))
-# sprites.add(rectangle)
-
+# an array with all pieces sprites
 pieces = []
 
 def load_position():
@@ -55,11 +59,13 @@ def load_position():
 	for i in range(8):
 		for j in range(8):
 			n = board[j][i]
-			if n == 0: continue
+			if n == 0: continue # skip if there is no piece on current board position
 
+			# figuring out the piece position in the sprites.png image
 			src_x = abs(n) - 1
-			src_y = 0 if n > 0 else 1
-
+			src_y = 0 if n > 0 else 1 # if negative number pick the blacks
+			
+			# appending a new sprite and setting its position
 			pieces.append(Sprite(sheet.get_image(src_x * 200, src_y * 200, 200, 200)))
 			pieces[k].rect.x = i * TILESIZE
 			pieces[k].rect.y = j * TILESIZE
@@ -125,9 +131,6 @@ while running:
 				move_to(cp, i, j)
 				move_sound = mixer.Sound('sound/move.ogg')
 				move_sound.play()
-
-				# pieces[cp].rect.x = i * TILESIZE
-				# pieces[cp].rect.y = j * TILESIZE
 				
 
 		elif event.type == pygame.MOUSEMOTION:
